@@ -222,5 +222,3 @@ contract NBBLToken is ERC20Interface, SafeMath {
     function showRestBottles() public onlyRecycler view returns (uint){
         return bottleNums[msg.sender];
     }
-
-}
