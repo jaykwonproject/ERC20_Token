@@ -57,6 +57,7 @@ contract NBBLToken is ERC20Interface, SafeMath {
     
     mapping(address => uint) balances;
     mapping(address => mapping(address => uint)) allowed;
+    mapping(address => uint) public ranking;
     
     
     modifier validState(State currentState){ 
