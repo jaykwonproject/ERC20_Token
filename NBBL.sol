@@ -113,15 +113,43 @@ contract NBBLToken is ERC20Interface, SafeMath {
         return balances[tokenOwner];
     }
 
-    function transfer(address to, uint tokens) public returns (bool success) {
-        if(bottles >= tokens){
-            bottles -= tokens;
-            balances[msg.sender] = safeSub(balances[msg.sender], tokens);
-            balances[to] = safeAdd(balances[to], tokens);
-            emit Transfer(msg.sender, to, tokens);
-            return true;
+     function transfer(address to, uint tokens) public returns (bool success) {
+            if(bottles >= tokens){
+                bottles -= tokens;
+                uint rankOfUser = ranking[msg.sender];
+                if(rankOfUser == 0){
+                    balances[0xDf3c880e0813E1AdAB40Da45c2f994A32c6494A1] = safeSub(balances[0xDf3c880e0813E1AdAB40Da45c2f994A32c6494A1], tokens);
+                    balances[to] = safeAdd(balances[to], tokens);
+                    emit Transfer(0xDf3c880e0813E1AdAB40Da45c2f994A32c6494A1, to, tokens);
+                }
+                else if(rankOfUser == 1){
+                    balances[0xDf3c880e0813E1AdAB40Da45c2f994A32c6494A1] = safeSub(balances[0xDf3c880e0813E1AdAB40Da45c2f994A32c6494A1], tokens * 2);
+                    balances[to] = safeAdd(balances[to], tokens * 2);
+                    emit Transfer(0xDf3c880e0813E1AdAB40Da45c2f994A32c6494A1, to, tokens * 2);
+                }
+                else if(rankOfUser == 2){
+                    balances[0xDf3c880e0813E1AdAB40Da45c2f994A32c6494A1] = safeSub(balances[0xDf3c880e0813E1AdAB40Da45c2f994A32c6494A1], tokens * 3);
+                    balances[to] = safeAdd(balances[to], tokens * 3);
+                    emit Transfer(0xDf3c880e0813E1AdAB40Da45c2f994A32c6494A1, to, tokens * 3);
+                }
+                else if(rankOfUser == 3){
+                    balances[0xDf3c880e0813E1AdAB40Da45c2f994A32c6494A1] = safeSub(balances[0xDf3c880e0813E1AdAB40Da45c2f994A32c6494A1], tokens * 4);
+                    balances[to] = safeAdd(balances[to], tokens * 4);
+                    emit Transfer(0xDf3c880e0813E1AdAB40Da45c2f994A32c6494A1, to, tokens * 4);
+                }
+                else if(rankOfUser == 4){
+                    balances[0xDf3c880e0813E1AdAB40Da45c2f994A32c6494A1] = safeSub(balances[0xDf3c880e0813E1AdAB40Da45c2f994A32c6494A1], tokens * 5);
+                    balances[to] = safeAdd(balances[to], tokens * 5);
+                    emit Transfer(0xDf3c880e0813E1AdAB40Da45c2f994A32c6494A1, to, tokens * 5);
+                }
+                else{
+                    balances[0xDf3c880e0813E1AdAB40Da45c2f994A32c6494A1] = safeSub(balances[0xDf3c880e0813E1AdAB40Da45c2f994A32c6494A1], tokens * 6);
+                    balances[to] = safeAdd(balances[to], tokens * 6);
+                    emit Transfer(0xDf3c880e0813E1AdAB40Da45c2f994A32c6494A1, to, tokens * 6);
+                }
+                return true;
+            }
         }
-    }
 
     function approve(address spender, uint tokens) public returns (bool success) {
         allowed[msg.sender][spender] = tokens;
@@ -140,39 +168,39 @@ contract NBBLToken is ERC20Interface, SafeMath {
     function allowance(address tokenOwner, address spender) public constant returns (uint remaining) {
         return allowed[tokenOwner][spender];
     }
-    
-    
+
+
      function activateVoting() public onlyChair{
         state = State.Active;
     }
-    
+
     function deactivateVoting() public onlyChair{
         state = State.Deactive;
     }
-    
+
     function votingState() public view returns(bool){
         return state ==State.Active;
     }
-    
+
     function vote(uint organizationNumber, uint tokens) public onlyRecycler validBottles(bottles, tokens) validState(State.Active) returns (bool success){
         npos[organizationNumber].voteCount += tokens;
         totalVote += tokens;
         return true;
     }
-    
+
     function totalVotes() public view returns(uint){
         return totalVote;
     }
-    
+
     function reqWinner() public validState(State.Deactive) view returns (uint winningProposal) {
         uint winningVoteCount = 0;
-        for (uint npo = 0; npo < npos.length; npo++) 
+        for (uint npo = 0; npo < npos.length; npo++)
             if (npos[npo].voteCount > winningVoteCount) {
                 winningVoteCount = npos[npo].voteCount;
                 winningProposal = npo;
             }
     }
-    
+
     function sendToNOP() public validState(State.Deactive) returns (bool success) {
         uint winner = reqWinner();
         balances[msg.sender] = safeSub(balances[msg.sender], totalVote);
@@ -181,6 +209,26 @@ contract NBBLToken is ERC20Interface, SafeMath {
         totalVote = 0;
         return true;
     }
+
+    /*-------------------------------Ranking Function--------------------------------*/
+
+    function rankingUp(uint num) public returns (bool success){
+            if(bottles >= num * 5){
+                bottles -= num * 5;
+                if(ranking[msg.sender] == 5){
+                  return false;
+                }
+                else{
+                    balances[0xDf3c880e0813E1AdAB40Da45c2f994A32c6494A1] = safeSub(balances[0xDf3c880e0813E1AdAB40Da45c2f994A32c6494A1], num);
+                    ranking[msg.sender] = safeAdd(ranking[msg.sender], num);
+                    return true;
+                }
+            }
+        }
+
+        function showRank() public view returns (uint rank){
+            return ranking[msg.sender];
+        }
     
 
 }
