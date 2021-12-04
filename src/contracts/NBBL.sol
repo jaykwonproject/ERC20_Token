@@ -78,7 +78,7 @@ contract NBBL is ERC20Interface, SafeMath {
         symbol = "NBBL";
         name = "The New Bottle Bill";
         decimals = 2;
-        _totalSupply = 6600000000;
+        _totalSupply = 6600000000000000000000000000;
         balances[msg.sender] = _totalSupply;
         emit Transfer(address(0), msg.sender, _totalSupply);
         state = State.Deactive;
