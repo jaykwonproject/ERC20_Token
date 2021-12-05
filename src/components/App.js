@@ -69,6 +69,10 @@ class App extends Component {
         this.state.nbblToken.methods.transfer(amount).send({from: this.state.account}).on('transaction', (hash) => {})
     }
 
+    vote = (organizationNumber, tokens) => {
+        this.state.nbblToken.methods.vote(organizationNumber,tokens).send({from: this.state.account}).on('trasnsaction', (hash) => {})
+    }
+
     constructor(props) {
         super(props)
         this.state = {
@@ -101,6 +105,7 @@ class App extends Component {
                 activateVoting = {this.activateVoting}
                 deactivateVoting = {this.deactivateVoting}
                 getTokens = {this.getTokens}
+                vote = {this.vote}
             />
         }
         return (
