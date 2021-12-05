@@ -29,12 +29,15 @@ class App extends Component {
             let rank = await nbblToken.methods.ranking(this.state.account).call()
             let votingStates = await nbblToken.methods.votingStates().call()
             let winner = await nbblToken.methods.winningProposal().call()
+            let totalVoting = await nbblToken.methods.totalVotes().call()
 
             this.setState({ nbblTokenBalance: nbblTokenBalance.toString() })
             this.setState({ bottles : bottlesNums.toString()})
             this.setState({rank : rank.toString()})
             this.setState({votingState : votingStates.toString()})
             this.setState({winner : winner.toString()})
+            this.setState({totalVotes: totalVoting.toString()})
+
 
         } else {
             window.alert('nbblToken contract not deployed to detected network.')
@@ -76,6 +79,7 @@ class App extends Component {
         this.state.nbblToken.methods.vote(organizationNumber,tokens).send({from: this.state.account}).on('trasnsaction', (hash) => {})
     }
 
+
     constructor(props) {
         super(props)
         this.state = {
@@ -86,7 +90,8 @@ class App extends Component {
             rank: 0,
             loading: true,
             votingState : "",
-            winner: ""
+            winner: "",
+            totalVotes: 0,
         }
     }
     render() {
@@ -110,6 +115,7 @@ class App extends Component {
                 deactivateVoting = {this.deactivateVoting}
                 getTokens = {this.getTokens}
                 vote = {this.vote}
+                totalVoting={this.totalVoting}
             />
         }
         return (
@@ -119,6 +125,7 @@ class App extends Component {
                 <h3> Bottles = {this.state.bottles}</h3>
                 <h3> Rank = {this.state.rank}</h3>
                 <h3> Voting State = {this.state.votingState}</h3>
+                <h3> TotalVotes = {this.state.totalVotes}</h3>
 
                 <div className="container-fluid mt-5">
                     <div className="row">
