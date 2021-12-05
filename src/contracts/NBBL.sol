@@ -42,19 +42,19 @@ contract NBBL is ERC20Interface, SafeMath {
     uint8 decimals;
     uint public _totalSupply;
     enum State {Active, Deactive}
-    State state = State.Deactive;
+    State public votingStates = State.Deactive;
     uint totalVote = 0;
     NPO [] npos;
     address chairperson;
     address recycler;
-
+    uint public winningProposal = 0;
     mapping(address => uint) public balances;
     mapping(address => mapping(address => uint)) allowed;
     mapping(address => uint) public ranking;
     mapping(address => uint) public bottleNums;
 
     modifier validState(State currentState){
-        require(state == currentState);
+        require(votingStates == currentState);
         _;
     }
 
@@ -81,7 +81,7 @@ contract NBBL is ERC20Interface, SafeMath {
         _totalSupply = 6600000000000000000000000000;
         balances[msg.sender] = _totalSupply;
         emit Transfer(address(0), msg.sender, _totalSupply);
-        state = State.Deactive;
+        votingStates = State.Deactive;
 
         //numNPOs would be the actual number of non-profit-organizatons
         uint numNPOS = 10;
@@ -160,15 +160,15 @@ contract NBBL is ERC20Interface, SafeMath {
 
 
     function activateVoting() public onlyChair{
-        state = State.Active;
+        votingStates = State.Active;
     }
 
     function deactivateVoting() public onlyChair{
-        state = State.Deactive;
+        votingStates = State.Deactive;
     }
 
     function votingState() public view returns(bool){
-        return state ==State.Active;
+        return votingStates == State.Active;
     }
 
     function vote(uint organizationNumber, uint tokens) public onlyRecycler validBottles(tokens) validState(State.Active) returns (bool success){

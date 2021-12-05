@@ -27,11 +27,14 @@ class App extends Component {
             let nbblTokenBalance = await nbblToken.methods.balanceOf(this.state.account).call()
             let bottlesNums = await nbblToken.methods.bottleNums(this.state.account).call()
             let rank = await nbblToken.methods.ranking(this.state.account).call()
-
+            let votingStates = await nbblToken.methods.votingStates().call()
+            let winner = await nbblToken.methods.winningProposal().call()
 
             this.setState({ nbblTokenBalance: nbblTokenBalance.toString() })
             this.setState({ bottles : bottlesNums.toString()})
             this.setState({rank : rank.toString()})
+            this.setState({votingState : votingStates.toString()})
+            this.setState({winner : winner.toString()})
 
         } else {
             window.alert('nbblToken contract not deployed to detected network.')
@@ -59,11 +62,11 @@ class App extends Component {
     }
     activateVoting = () => {
         this.state.nbblToken.methods.activateVoting().send({from: this.state.account}).on('transaction', (hash) => {})
-        this.setState({votingState : "Activate"})
+        //this.setState({votingState : "Activate"})
     }
     deactivateVoting = () => {
         this.state.nbblToken.methods.deactivateVoting().send({from: this.state.account}).on('transaction', (hash) => {})
-        this.setState({votingState : "Deactivate"})
+        //this.setState({votingState : "Deactivate"})
     }
     getTokens = (amount) => {
         this.state.nbblToken.methods.transfer(amount).send({from: this.state.account}).on('transaction', (hash) => {})
@@ -82,7 +85,8 @@ class App extends Component {
             nbblTokenBalance: '0',
             rank: 0,
             loading: true,
-            votingState : "Deactivated"
+            votingState : "",
+            winner: ""
         }
     }
     render() {
@@ -112,7 +116,7 @@ class App extends Component {
             <div>
                 <h3> Account={this.state.account} </h3>
                 <h3> nbblTokenBalance={this.state.nbblTokenBalance}</h3>
-                <h3> Bottels = {this.state.bottles}</h3>
+                <h3> Bottles = {this.state.bottles}</h3>
                 <h3> Rank = {this.state.rank}</h3>
                 <h3> Voting State = {this.state.votingState}</h3>
 
