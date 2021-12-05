@@ -74,7 +74,7 @@ contract NBBL is ERC20Interface, SafeMath {
     }
 
     constructor() public {
-        chairperson = address(0);
+        chairperson = msg.sender;
         symbol = "NBBL";
         name = "The New Bottle Bill";
         decimals = 2;

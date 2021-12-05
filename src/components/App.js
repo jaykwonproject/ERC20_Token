@@ -23,9 +23,12 @@ class App extends Component {
         if(nbblTokenData) {
             const nbblToken = new web3.eth.Contract(NBBL.abi, nbblTokenData.address)
             this.setState({ nbblToken })
+
             let nbblTokenBalance = await nbblToken.methods.balanceOf(this.state.account).call()
             let bottlesNums = await nbblToken.methods.bottleNums(this.state.account).call()
             let rank = await nbblToken.methods.ranking(this.state.account).call()
+
+
             this.setState({ nbblTokenBalance: nbblTokenBalance.toString() })
             this.setState({ bottles : bottlesNums.toString()})
             this.setState({rank : rank.toString()})
@@ -49,16 +52,19 @@ class App extends Component {
         }
     }
     insertBottle = (amount) => {
-        this.setState({loading : true})
-        this.state.nbblToken.methods.insertBottle(amount).send({from: this.state.account}).on('transaction', (hash) => {
-            this.setState({loading:false})
-        })
+        this.state.nbblToken.methods.insertBottle(amount).send({from: this.state.account}).on('transaction', (hash) => {})
     }
     rankingUp = (num) => {
-        this.setState({loading : true})
-        this.state.nbblToken.methods.rankingUp(num).send({from: this.state.account}).on('trasnsaction', (hash) => {
-            this.setState({loading : false})
-        })
+        this.state.nbblToken.methods.rankingUp(num).send({from: this.state.account}).on('trasnsaction', (hash) => {})
+    }
+    activateVoting = () => {
+        this.state.nbblToken.methods.activateVoting().send({from: this.state.account}).on('transaction', (hash) => {})
+        this.setState({votingState : "Activate"})
+    }
+    deactivateVoting = () => {
+
+        this.state.nbblToken.methods.deactivateVoting().send({from: this.state.account}).on('transaction', (hash) => {})
+        this.setState({votingState : "Deactivate"})
     }
 
     constructor(props) {
@@ -69,7 +75,8 @@ class App extends Component {
             nbblToken: {},
             nbblTokenBalance: '0',
             rank: 0,
-            loading: true
+            loading: true,
+            votingState : "Deactivated"
         }
     }
     render() {
@@ -81,18 +88,24 @@ class App extends Component {
             content = <Main
                 nbblTokkenBalance = {this.state.nbblTokenBalance}
                 bottels = {this.state.bottles}
-                insertBottle = {this.insertBottle}
                 account ={this.state.account}
                 rank = {this.state.rank}
+                votingState = {this.state.votingState}
+
+                insertBottle = {this.insertBottle}
                 rankingUp = {this.rankingUp}
+                activateVoting = {this.activateVoting}
+                deactivateVoting = {this.deactivateVoting}
             />
         }
         return (
             <div>
-                <h1> account={this.state.account} </h1>
+                <h1> Account={this.state.account} </h1>
                 <h1> nbblTokenBalance={this.state.nbblTokenBalance}</h1>
-                <h1> bottels = {this.state.bottles}</h1>
-                <h1> rank = {this.state.rank}</h1>
+                <h1> Bottels = {this.state.bottles}</h1>
+                <h1> Rank = {this.state.rank}</h1>
+                <h1> Voting State = {this.state.votingState}</h1>
+
                 <div className="container-fluid mt-5">
                     <div className="row">
                         <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '600px' }}>
