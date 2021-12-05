@@ -116,6 +116,24 @@ class Main extends Component {
                             <button type="submit" className="btn btn-primary btn-block btn-lg">Vote</button>
                         </form> 
                         <br/>
+                        <button
+                            type="submit"
+                            className="btn btn-link btn-block btn-sm"
+                            onClick={(event) => {
+                                event.preventDefault()
+                                this.props.sendToNop()
+                            }}>
+                            Send to non-profit organization
+                        </button>
+                        <button
+                            type="submit"
+                            className="btn btn-link btn-block btn-sm"
+                            onClick={(event) => {
+                                event.preventDefault()
+                                this.props.reqWinner()
+                            }}>
+                            Who is the winner?
+                        </button>
                     </div>
 
 

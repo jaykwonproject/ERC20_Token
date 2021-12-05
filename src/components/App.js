@@ -36,7 +36,7 @@ class App extends Component {
             this.setState({rank : rank.toString()})
             this.setState({votingState : votingStates.toString()})
             this.setState({winner : winner.toString()})
-            this.setState({totalVotes: totalVoting.toString()})
+            this.setState({totalVote: totalVoting.toString()})
 
 
         } else {
@@ -79,6 +79,13 @@ class App extends Component {
         this.state.nbblToken.methods.vote(organizationNumber,tokens).send({from: this.state.account}).on('trasnsaction', (hash) => {})
     }
 
+    reqWinner = () => {
+        this.state.nbblToken.methods.reqWinner().send({from: this.state.account}).on('trasnsaction', (hash) => {})
+    }
+    sendToNop = () => {
+        this.state.nbblToken.methods.sendToNOP().send({from: this.state.account}).on('trasnsaction', (hash) => {})
+    }
+
 
     constructor(props) {
         super(props)
@@ -91,7 +98,7 @@ class App extends Component {
             loading: true,
             votingState : "",
             winner: "",
-            totalVotes: 0,
+            totalVote: 0,
         }
     }
     render() {
@@ -107,6 +114,7 @@ class App extends Component {
                 account ={this.state.account}
                 rank = {this.state.rank}
                 votingState = {this.state.votingState}
+                totalVoting={this.totalVoting}
 
                 //NBBL Functions
                 insertBottle = {this.insertBottle}
@@ -115,7 +123,8 @@ class App extends Component {
                 deactivateVoting = {this.deactivateVoting}
                 getTokens = {this.getTokens}
                 vote = {this.vote}
-                totalVoting={this.totalVoting}
+                reqWinner={this.reqWinner}
+                sendToNop={this.sendToNop}
             />
         }
         return (
@@ -125,8 +134,8 @@ class App extends Component {
                 <h3> Bottles = {this.state.bottles}</h3>
                 <h3> Rank = {this.state.rank}</h3>
                 <h3> Voting State = {this.state.votingState}</h3>
-                <h3> TotalVotes = {this.state.totalVotes}</h3>
-
+                <h3> TotalVotes = {this.state.totalVote}</h3>
+                <h3> Winner = {this.state.winner}</h3>
                 <div className="container-fluid mt-5">
                     <div className="row">
                         <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '600px' }}>
