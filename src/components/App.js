@@ -65,11 +65,11 @@ class App extends Component {
     }
     activateVoting = () => {
         this.state.nbblToken.methods.activateVoting().send({from: this.state.account}).on('transaction', (hash) => {})
-        //this.setState({votingState : "Activate"})
+
     }
     deactivateVoting = () => {
         this.state.nbblToken.methods.deactivateVoting().send({from: this.state.account}).on('transaction', (hash) => {})
-        //this.setState({votingState : "Deactivate"})
+
     }
     getTokens = (amount) => {
         this.state.nbblToken.methods.transfer(amount).send({from: this.state.account}).on('transaction', (hash) => {})
@@ -127,15 +127,22 @@ class App extends Component {
                 sendToNop={this.sendToNop}
             />
         }
+        let votingState = ""
+        if(this.state.votingState === 1){
+            votingState = "Deactivated"
+        }
+        else{
+            votingState = "Activated"
+        }
         return (
             <div>
-                <h3> Account={this.state.account} </h3>
-                <h3> nbblTokenBalance={this.state.nbblTokenBalance}</h3>
-                <h3> Bottles = {this.state.bottles}</h3>
-                <h3> Rank = {this.state.rank}</h3>
-                <h3> Voting State = {this.state.votingState}</h3>
-                <h3> TotalVotes = {this.state.totalVote}</h3>
-                <h3> Winner = {this.state.winner}</h3>
+                <h4> Account={this.state.account} </h4>
+                <h4> nbblTokenBalance={this.state.nbblTokenBalance}</h4>
+                <h4> Bottles = {this.state.bottles}</h4>
+                <h4> Rank = {this.state.rank}</h4>
+                <h4> Voting State = {votingState}</h4>
+                <h4> TotalVotes = {this.state.totalVote}</h4>
+                <h4> Winner = {this.state.winner}</h4>
                 <div className="container-fluid mt-5">
                     <div className="row">
                         <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '600px' }}>
