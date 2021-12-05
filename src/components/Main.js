@@ -44,7 +44,7 @@ class Main extends Component {
                                     placeholder="0"
                                     required />
                             </div>
-                            <button type="submit" className="btn btn-primary btn-block btn-lg">Rank Up !</button>
+                            <button type="submit" className="btn btn-primary btn-block btn-lg">Rank Up!</button>
 
                             <br/>
                             <br/>
@@ -68,6 +68,27 @@ class Main extends Component {
                                 }}>
                                 Deactivate Voting!
                             </button>
+                            <br/>
+                            <br/>
+                        </form>
+                        <form className="mb-3" onSubmit={(event) => {
+                            event.preventDefault()
+                            let amount = this.input3.value.toString()
+                            amount = parseInt(amount, 10)
+                            this.props.getTokens(amount)
+                        }}>
+                            <div>
+                                <label className="float-left"><b>Insert Bottles</b></label>
+                            </div>
+                            <div className="input-group mb-4">
+                                <input
+                                    type="text"
+                                    ref={(input) => { this.input3 = input }}
+                                    className="form-control form-control-lg"
+                                    placeholder="0"
+                                    required />
+                            </div>
+                            <button type="submit" className="btn btn-primary btn-block btn-lg">Get NBBL Tokens!</button>
                         </form>
                     </div>
             </div>

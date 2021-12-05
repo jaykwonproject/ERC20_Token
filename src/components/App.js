@@ -62,9 +62,11 @@ class App extends Component {
         this.setState({votingState : "Activate"})
     }
     deactivateVoting = () => {
-
         this.state.nbblToken.methods.deactivateVoting().send({from: this.state.account}).on('transaction', (hash) => {})
         this.setState({votingState : "Deactivate"})
+    }
+    getTokens = (amount) => {
+        this.state.nbblToken.methods.transfer(amount).send({from: this.state.account}).on('transaction', (hash) => {})
     }
 
     constructor(props) {
@@ -86,25 +88,28 @@ class App extends Component {
         }
         else{
             content = <Main
+                //NBBL Variables
                 nbblTokkenBalance = {this.state.nbblTokenBalance}
                 bottels = {this.state.bottles}
                 account ={this.state.account}
                 rank = {this.state.rank}
                 votingState = {this.state.votingState}
 
+                //NBBL Functions
                 insertBottle = {this.insertBottle}
                 rankingUp = {this.rankingUp}
                 activateVoting = {this.activateVoting}
                 deactivateVoting = {this.deactivateVoting}
+                getTokens = {this.getTokens}
             />
         }
         return (
             <div>
-                <h1> Account={this.state.account} </h1>
-                <h1> nbblTokenBalance={this.state.nbblTokenBalance}</h1>
-                <h1> Bottels = {this.state.bottles}</h1>
-                <h1> Rank = {this.state.rank}</h1>
-                <h1> Voting State = {this.state.votingState}</h1>
+                <h3> Account={this.state.account} </h3>
+                <h3> nbblTokenBalance={this.state.nbblTokenBalance}</h3>
+                <h3> Bottels = {this.state.bottles}</h3>
+                <h3> Rank = {this.state.rank}</h3>
+                <h3> Voting State = {this.state.votingState}</h3>
 
                 <div className="container-fluid mt-5">
                     <div className="row">
