@@ -62,9 +62,12 @@ class App extends Component {
         this.setState({votingState : "Activate"})
     }
     deactivateVoting = () => {
-
         this.state.nbblToken.methods.deactivateVoting().send({from: this.state.account}).on('transaction', (hash) => {})
         this.setState({votingState : "Deactivate"})
+    }
+
+    vote = (organizationNumber, tokens) => {
+        this.state.nbblToken.methods.vote(organizationNumber,tokens).send({from: this.state.account}).on('trasnsaction', (hash) => {})
     }
 
     constructor(props) {
@@ -96,6 +99,8 @@ class App extends Component {
                 rankingUp = {this.rankingUp}
                 activateVoting = {this.activateVoting}
                 deactivateVoting = {this.deactivateVoting}
+
+                vote = {this.vote}
             />
         }
         return (
