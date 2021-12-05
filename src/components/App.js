@@ -128,7 +128,7 @@ class App extends Component {
             />
         }
         let votingState = ""
-        if(this.state.votingState === 1){
+        if(this.state.votingState == 1){
             votingState = "Deactivated"
         }
         else{

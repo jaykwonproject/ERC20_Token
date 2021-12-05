@@ -116,7 +116,7 @@ class Main extends Component {
                         </button>
                         <form className="mb-3" onSubmit={(event) => {
                             event.preventDefault()
-                            let amount = this.input3.value.toString()
+                            let amount = this.input5.value.toString()
                             amount = parseInt(amount, 10)
                             this.props.getTokens(amount)
                         }}>
@@ -126,7 +126,7 @@ class Main extends Component {
                             <div className="input-group mb-4">
                                 <input
                                     type="text"
-                                    ref={(input) => { this.input3 = input }}
+                                    ref={(input) => { this.input5 = input }}
                                     className="form-control form-control-lg"
                                     placeholder="0"
                                     required />
