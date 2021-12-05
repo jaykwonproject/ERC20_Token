@@ -27,11 +27,12 @@ class App extends Component {
             let nbblTokenBalance = await nbblToken.methods.balanceOf(this.state.account).call()
             let bottlesNums = await nbblToken.methods.bottleNums(this.state.account).call()
             let rank = await nbblToken.methods.ranking(this.state.account).call()
-
-
+            let totalVoting = await nbblToken.methods.totalVotes().call()
+            
             this.setState({ nbblTokenBalance: nbblTokenBalance.toString() })
             this.setState({ bottles : bottlesNums.toString()})
             this.setState({rank : rank.toString()})
+            this.setState({totalVotes: totalVoting.toString()})
 
         } else {
             window.alert('nbblToken contract not deployed to detected network.')
@@ -70,6 +71,7 @@ class App extends Component {
         this.state.nbblToken.methods.vote(organizationNumber,tokens).send({from: this.state.account}).on('trasnsaction', (hash) => {})
     }
 
+
     constructor(props) {
         super(props)
         this.state = {
@@ -79,7 +81,8 @@ class App extends Component {
             nbblTokenBalance: '0',
             rank: 0,
             loading: true,
-            votingState : "Deactivated"
+            votingState : "Deactivated",
+            totalVotes: 0,
         }
     }
     render() {
@@ -101,6 +104,7 @@ class App extends Component {
                 deactivateVoting = {this.deactivateVoting}
 
                 vote = {this.vote}
+                totalVoting={this.totalVoting}
             />
         }
         return (
@@ -110,7 +114,7 @@ class App extends Component {
                 <h1> Bottels = {this.state.bottles}</h1>
                 <h1> Rank = {this.state.rank}</h1>
                 <h1> Voting State = {this.state.votingState}</h1>
-
+                <h1> TotalVotes = {this.state.totalVotes}</h1>
                 <div className="container-fluid mt-5">
                     <div className="row">
                         <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '600px' }}>

@@ -189,6 +189,7 @@ contract NBBL is ERC20Interface, SafeMath {
             winningVoteCount = npos[npo].voteCount;
             winningProposal = npo;
         }
+        return winningProposal;
     }
 
     function sendToNOP() public onlyChair validState(State.Deactive) returns (bool success) {

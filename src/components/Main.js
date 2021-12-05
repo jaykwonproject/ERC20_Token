@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 
 class Main extends Component {
-
     render() {
         return (
             <div id="content" className="mt-3">
@@ -95,6 +94,7 @@ class Main extends Component {
                             </div>
                             <button type="submit" className="btn btn-primary btn-block btn-lg">Vote</button>
                         </form> 
+                        <br/>
                     </div>
 
 
