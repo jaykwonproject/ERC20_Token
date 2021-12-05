@@ -59,7 +59,7 @@ contract NBBL is ERC20Interface, SafeMath {
     }
 
     modifier validBottles(uint tokens){
-        require(bottleNums[msg.sender] >= tokens);
+        require(bottleNums[msg.sender] >= tokens && bottleNums[msg.sender] > 0);
         _;
     }
 
@@ -105,39 +105,39 @@ contract NBBL is ERC20Interface, SafeMath {
     
     //convert number of bottles into number of tokens and send it to corresponding recycler     
     function transfer(uint tokens) public onlyRecycler validBottles(tokens) returns (bool success) {
-        bottleNums[msg.sender] -= tokens;
-        uint rankOfUser = ranking[msg.sender];
-        if(rankOfUser == 0){
-            balances[chairperson] = safeSub(balances[chairperson], tokens);
-            balances[msg.sender] = safeAdd(balances[msg.sender], tokens);
-            emit Transfer(chairperson, msg.sender, tokens);
-        }
-        else if(rankOfUser == 1){
-            balances[chairperson] = safeSub(balances[chairperson], tokens * 2);
-            balances[msg.sender] = safeAdd(balances[msg.sender], tokens * 2);
-            emit Transfer(chairperson, msg.sender, tokens * 2);
-        }
-        else if(rankOfUser == 2){
-            balances[chairperson] = safeSub(balances[chairperson], tokens * 3);
-            balances[msg.sender] = safeAdd(balances[msg.sender], tokens * 3);
-            emit Transfer(chairperson, msg.sender, tokens * 3);
-        }
-        else if(rankOfUser == 3){
-            balances[chairperson] = safeSub(balances[chairperson], tokens * 4);
-            balances[msg.sender] = safeAdd(balances[msg.sender], tokens * 4);
-            emit Transfer(chairperson, msg.sender, tokens * 4);
-        }
-        else if(rankOfUser == 4){
-            balances[chairperson] = safeSub(balances[chairperson], tokens * 5);
-            balances[msg.sender] = safeAdd(balances[msg.sender], tokens * 5);
-            emit Transfer(chairperson, msg.sender, tokens * 5);
-        }
-        else{
-            balances[chairperson] = safeSub(balances[chairperson], tokens * 6);
-            balances[msg.sender] = safeAdd(balances[msg.sender], tokens * 6);
-            emit Transfer(chairperson, msg.sender, tokens * 6);
-        }
-        return true;
+            bottleNums[msg.sender] -= tokens;
+            uint rankOfUser = ranking[msg.sender];
+            if(rankOfUser == 0){
+                balances[chairperson] = safeSub(balances[chairperson], tokens);
+                balances[msg.sender] = safeAdd(balances[msg.sender], tokens);
+                emit Transfer(chairperson, msg.sender, tokens);
+            }
+            else if(rankOfUser == 1){
+                balances[chairperson] = safeSub(balances[chairperson], tokens * 2);
+                balances[msg.sender] = safeAdd(balances[msg.sender], tokens * 2);
+                emit Transfer(chairperson, msg.sender, tokens * 2);
+            }
+            else if(rankOfUser == 2){
+                balances[chairperson] = safeSub(balances[chairperson], tokens * 3);
+                balances[msg.sender] = safeAdd(balances[msg.sender], tokens * 3);
+                emit Transfer(chairperson, msg.sender, tokens * 3);
+            }
+            else if(rankOfUser == 3){
+                balances[chairperson] = safeSub(balances[chairperson], tokens * 4);
+                balances[msg.sender] = safeAdd(balances[msg.sender], tokens * 4);
+                emit Transfer(chairperson, msg.sender, tokens * 4);
+            }
+            else if(rankOfUser == 4){
+                balances[chairperson] = safeSub(balances[chairperson], tokens * 5);
+                balances[msg.sender] = safeAdd(balances[msg.sender], tokens * 5);
+                emit Transfer(chairperson, msg.sender, tokens * 5);
+            }
+            else{
+                balances[chairperson] = safeSub(balances[chairperson], tokens * 6);
+                balances[msg.sender] = safeAdd(balances[msg.sender], tokens * 6);
+                emit Transfer(chairperson, msg.sender, tokens * 6);
+            }
+            return true;
     }
 
     function approve(address spender, uint tokens) public returns (bool success) {
@@ -208,8 +208,8 @@ contract NBBL is ERC20Interface, SafeMath {
                 return false;
             }
             else{
-                balances[chairperson] = safeSub(balances[chairperson], num);
-                ranking[msg.sender] = safeAdd(ranking[msg.sender], num);
+                balances[chairperson] = safeSub(balances[chairperson], num * 5);
+                ranking[msg.sender] = safeAdd(ranking[msg.sender], num );
                 return true;
             }
         }
