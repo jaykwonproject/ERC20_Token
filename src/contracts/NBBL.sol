@@ -48,10 +48,10 @@ contract NBBL is ERC20Interface, SafeMath {
     address chairperson;
     address recycler;
 
-    mapping(address => uint) balances;
+    mapping(address => uint) public balances;
     mapping(address => mapping(address => uint)) allowed;
-    mapping(address => uint) ranking;
-    mapping(address => uint) bottleNums;
+    mapping(address => uint) public ranking;
+    mapping(address => uint) public bottleNums;
 
     modifier validState(State currentState){
         require(state == currentState);
@@ -74,7 +74,7 @@ contract NBBL is ERC20Interface, SafeMath {
     }
 
     constructor() public {
-        chairperson = msg.sender;
+        chairperson = address(0);
         symbol = "NBBL";
         name = "The New Bottle Bill";
         decimals = 2;
@@ -93,7 +93,6 @@ contract NBBL is ERC20Interface, SafeMath {
 
     function insertBottle(uint n) public onlyRecycler returns (uint){
         bottleNums[msg.sender] += n;
-        return bottleNums[msg.sender];
     }
 
     function totalSupply() public view returns (uint) {
